@@ -123,13 +123,13 @@ static inline float32x4_t vmulq_f32(float32x4_t a, float32x4_t b)
     }
     return r;
 }
-static inline float32x4_t vst1q_f32(float *a, float32x4_t& b)
+static inline void vst1q_f32(float *a, float32x4_t& b)
 {
 
     for (int i=0; i<4; i++) {
         a[i] =  b[i];
     }
-    return a;
+    return;
 }
 static inline float32x4_t vdupq_n_f32(const float a)
 {
