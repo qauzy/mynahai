@@ -38,6 +38,104 @@
 using namespace paddle::lite_api;  // NOLINT
 using namespace cv;
 
+#if 1
+#include <array>
+
+template<class T, size_t N = 4>
+struct TxN
+{
+    T val[N];
+
+    TxN() = default;
+
+    T& operator[](size_t i)
+    {
+        return val[i];
+    }
+
+    T const& operator[](size_t i) const
+    {
+        return val[i];
+    }
+
+    size_t size() const
+    {
+        return N;
+    }
+
+    // there are at least three different ways to do this operator, but
+    //  this is the easiest, so I included below.
+    friend std::ostream& operator <<(std::ostream& os, TxN<T,N> const& t)
+    {
+        os << t.val[0];
+        for (size_t i=1; i<N; ++i)
+            os << ',' << t.val[i];
+        return os;
+    }
+};
+
+// now creating TypeN shrouds is trivial.
+using float32x4x3_t = TxN<float, 12>;
+using float32x4_t = TxN<float, 4>;
+using int16x8_t = TxN<short,8>;
+
+static inline float32x4x3_t vld3q_f32(const float *a)
+{
+    float32x4x3_t r;
+    for (int i=0; i<12; i++) {
+        r[i] = a[i];
+    }
+    return r;
+}
+
+/// @ingroup add
+/// r[i] = a[i] + b[i]
+static inline float32x4_t vaddq_f32(float32x4_t a, float32x4_t b)
+{
+    float32x4_t r;
+    for (int i=0; i<4; i++) {
+        r[i] = a[i] + b[i];
+    }
+    return r;
+}
+
+static inline float32x4_t vsubq_f32(float32x4_t a, float32x4_t b)
+{
+    float32x4_t r;
+    for (int i=0; i<4; i++) {
+        r[i] = a[i] - b[i];
+    }
+    return r;
+}
+
+static inline float32x4_t vmulq_f32(float32x4_t a, float32x4_t b)
+{
+    float32x4_t r;
+    for (int i=0; i<4; i++) {
+        r[i] = a[i] * b[i];
+    }
+    return r;
+}
+static inline float32x4_t vst1q_f32(float32x4_t& a, float32x4_t& b)
+{
+
+    for (int i=0; i<4; i++) {
+        a[i] =  b[i];
+    }
+    return a;
+}
+static inline float32x4_t vdupq_n_f32(float32x4_t& a)
+{
+
+    for (int i=0; i<4; i++) {
+        a[i] =  0.0;
+    }
+    return a;
+}
+
+
+#endif
+
 
 
 struct Object {
