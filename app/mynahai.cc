@@ -126,11 +126,11 @@ static inline float32x4_t vst1q_f32(float32x4_t& a, float32x4_t& b)
 }
 static inline float32x4_t vdupq_n_f32(const float *a)
 {
-
+    float32x4_t r;
     for (int i=0; i<4; i++) {
-        a[i] =  0.0;
+        r[i] =  a[i];
     }
-    return a;
+    return r;
 }
 
 
