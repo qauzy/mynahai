@@ -85,8 +85,8 @@ static inline float32x4x3_t vld3q_f32(const float *a)
     float32x4x3_t r;
     for(int i=0; i<3; i++){
         float32x4_t t;
-        for (int i=0; j<4; i++) {
-            t[i] = a[i*j];
+        for (int j=0; j<4; j++) {
+            t[j] = a[i*j];
         }
         r[i] = t;
 
