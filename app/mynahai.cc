@@ -83,9 +83,15 @@ using float32x4x3_t = TxN<float32x4_t, 3>;
 static inline float32x4x3_t vld3q_f32(const float *a)
 {
     float32x4x3_t r;
-    for (int i=0; i<12; i++) {
-        r[i] = a[i];
+    for(int i=0; i<3; i++){
+        float32x4_t t;
+        for (int i=0; j<4; i++) {
+            t[i] = a[i*j];
+        }
+        r[i] = t;
+
     }
+
     return r;
 }
 
@@ -117,7 +123,7 @@ static inline float32x4_t vmulq_f32(float32x4_t a, float32x4_t b)
     }
     return r;
 }
-static inline float32x4_t vst1q_f32(float32x4_t& a, float32x4_t& b)
+static inline float32x4_t vst1q_f32(float *a, float32x4_t& b)
 {
 
     for (int i=0; i<4; i++) {
