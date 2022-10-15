@@ -75,9 +75,10 @@ struct TxN
 };
 
 // now creating TypeN shrouds is trivial.
-using float32x4x3_t = TxN<float, 12>;
+
 using float32x4_t = TxN<float, 4>;
 using int16x8_t = TxN<short,8>;
+using float32x4x3_t = TxN<float32x4_t, 3>;
 
 static inline float32x4x3_t vld3q_f32(const float *a)
 {
